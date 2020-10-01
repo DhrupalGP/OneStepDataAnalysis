@@ -4,12 +4,12 @@
 
 # example usage: python RadiomicsHistograms.py --file BRATSlist.csv --param exampleVoxel.yaml --writeImage
 
+# Importing the libraries
 from radiomics import featureextractor
 import matplotlib.pyplot as plt
 import six
 import sys, os, argparse, csv
 import numpy as np
-
 import SimpleITK as sitk
 
 
@@ -35,6 +35,8 @@ if not os.path.isfile(args.file):
 
 #Read file
 inputCsv = csv.DictReader(open(args.file))
+
+#Exit conditions based on string values with if-else
 if 'Image' not in inputCsv.fieldnames:
   sys.exit("CSV file does not contain 'Image' column")
 elif 'Mask' not in inputCsv.fieldnames:
@@ -54,6 +56,7 @@ newHist  = True
 oldImage = False
 oldMask  = False
 
+# checking condition of row in csvfile
 for row in inputCsv:
   imageName = row['Image']
   maskName  = row['Mask']
@@ -88,7 +91,7 @@ for row in inputCsv:
     voxelMean = voxelArray.mean()
     print("Mean: " + str(voxelMean))
 
-    #Print histogram, if different image/mask combo then start new figure
+    #Plot histogram, if different image/mask combo then start new figure
     if newHist:    
       plt.figure()
       newHist = False
